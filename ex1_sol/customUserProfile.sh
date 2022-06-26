@@ -1,4 +1,4 @@
-echo Hello $USERNAME
+echo Hello $USER
 /usr/lib/update-notifier/apt-check --human-readable
 touch /home/$USER/.token
 TOKEN=/home/$USER/.token
