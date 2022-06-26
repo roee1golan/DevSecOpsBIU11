@@ -21,14 +21,13 @@ fi
 /usr/lib/update-notifier/apt-check --human-readable
 
 #VAR
-FILE=.token
-FILE_PATH=~/$FILE
+FILE=/home/$USER/.token
 PERM=600
 
 #RUN
-if [ -e $FILE_PATH ]; then
+if [ -e $FILE ]; then
         echo >> $FILE
-        if stat -c %a $FILE_PATH | grep -q -v $PERM; then
+        if stat -c %a $FILE | grep -q -v $PERM; then
                 echo "Warning: $FILE has to open permissions"
         fi
 fi
