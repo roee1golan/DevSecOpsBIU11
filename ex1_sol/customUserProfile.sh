@@ -2,7 +2,7 @@
 echo "Hello $USER"
 echo "$(/usr/lib/update-notifier/apt-check --human-readable)"
 
-touch $HOME/.token
+sudo touch $HOME/.token
 
 FILE=$HOME/.token
 STATUS=$(stat -c "%a" $FILE)
