@@ -1,7 +1,6 @@
 echo Hello $USER
 echo
 /usr/lib/update-notifier/apt-check --human-readable
-touch /home/$USER/.token
 TOKEN=/home/$USER/.token
 echo
 if [ -f $TOKEN ] && [ "stat -c '%a' $TOKENFILE" != 600 ]
