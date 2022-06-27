@@ -6,6 +6,6 @@ echo "Hello $USER"
 FILE=".token"
 FILE_PERM=$(stat -c "%a" $FILE)
 
-if [[ -f $FILE  && "$FILE_PERM" != 600 ]]; then
-                echo "Warning, $FILE file has too open permissions"
+if [[ -f $FILE  && "$FILE_PERM" -ne 600 ]]; then
+                echo "Warning: $FILE file has too open permissions"
 fi
