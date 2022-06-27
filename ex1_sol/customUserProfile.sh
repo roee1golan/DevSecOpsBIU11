@@ -1,16 +1,12 @@
 #!/bin/bash
 
-### variables ###
-FILE=/home/$USER/.token
-FILE_PERMISSIONS=$(stat -c "%a" $FILE)
-
-
 printf "Hello $USER\n\n"
 /usr/lib/update-notifier/apt-check --human-readable
 
-if [ -f "$FILE" ]; then
-        if [ $FILE_PERMISSIONS -eq 600 ]
+if [ -f "/home/$USER/.token" ]; then
+        FILE_PERM=$(stat -c "%a" /home/$USER/.token)
+        if [ $FILE_PERM == 600 ]
         then
-                echo "Warning, $FILE file has too open permmissions"
+                echo "Warning, /home/$USER/.token file has too open permmissions"
         fi
 fi
