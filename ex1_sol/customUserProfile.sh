@@ -4,11 +4,8 @@ echo Hello $USER
 /usr/lib/update-notifier/apt-check --human-readable
 
 FILE="$HOME/.token"
+FILE_PERM=$(stat -c "%a" $FILE)
 
-if [ -f $FILE ]; then
-        FILE_PERM=$(stat -c "%a" $FILE)
-        if [ "$FILE_PERM" -ne 600 ]
-        then
+if [ -f $FILE && "$FILE_PERM" -ne 600  ]; then
                 echo Warning, $FILE file has too open permissions
-        fi
 fi
