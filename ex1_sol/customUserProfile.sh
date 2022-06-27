@@ -17,3 +17,5 @@ if [ "stat -c "%a" -ne "600"" ];then
 else
         echo "premission are ok"
 fi
+
+exit
