@@ -3,7 +3,7 @@
 echo "Hello $USER"
 /usr/lib/update-notifier/apt-check --human-readable
 
-FILE="/home/$USER/.token"
+FILE=".token"
 FILE_PERM=$(stat -c "%a" $FILE)
 
 if [[ -f $FILE  && "$FILE_PERM" != 600 ]]; then
