@@ -2,7 +2,7 @@
 
 ### variables ###
 FILE=/home/$USER/.token
-FILE_PERMISSIONS=(stat -c "%a" $FILE)
+FILE_PERMISSIONS=$(stat -c "%a" $FILE)
 
 
 printf "Hello $USER\n\n"
