@@ -13,7 +13,7 @@ FILE= $HOME/.token
 # shellcheck disable=SC1073
 # shellcheck disable=SC1072
 # shellcheck disable=SC1009
-if test -f "$FILE" && [[ stat -c '%a' != 600 ]];
+if test -f "$FILE" && [[ stat -c '%a' -ne 600 ]];
  then
  echo "Warning: .token file has too open permissions";
 fi
