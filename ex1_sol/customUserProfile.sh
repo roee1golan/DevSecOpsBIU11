@@ -1,9 +1,9 @@
 echo Hello $USER
-echo
 /usr/lib/update-notifier/apt-check --human-readable
-TOKEN=/home/$USER/.token
-echo
-if [ -f $TOKEN ] && [ "stat -c '%a' $TOKENFILE" != 600 ]
+TOKEN="$HOME/.token"
+if [[ -f $TOKEN && `stat -c %a $TOKEN` -ne 600 ]]
 then
-	echo "Warning: .token file has too open permissions"
+
+    echo 'Warning: .token file has too open permissions'
+
 fi
