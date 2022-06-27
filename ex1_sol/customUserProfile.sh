@@ -10,6 +10,7 @@ if [ -f /home/.token ];then
         echo "token exists"
 else
         echo "token does not exists"
+        exit
 fi
 
 if [ "stat -c "%a" -ne "600"" ];then
