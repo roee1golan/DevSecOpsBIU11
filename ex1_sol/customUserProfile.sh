@@ -1,4 +1,5 @@
 
+
 #!/bin/bash
 
 echo Hello $USER
@@ -11,12 +12,8 @@ if [ -f "$FILE" ]; then
 else
     echo "$FILE does not exist."
 fi
-
 TOKEN=600
-xx=$(sudo stat -c '%a' .token)
-
-if [ "$TOKEN" == "$xx" ]; then
-    echo "permissions opened"
-else
+xx=$(sudo stat -c '%a' $FILE)
+if [ "$TOKEN" -ne "$xx" ]; then
     echo "Warning: .token file has too open permissions."
 fi
