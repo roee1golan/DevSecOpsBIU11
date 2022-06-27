@@ -9,11 +9,11 @@ echo $greet
 if [ -f /home/.token ];then
         echo "token exists"
 else
-        exit 1
+        echo "token does not exists"
 fi
 
 if [ "stat -c "%a" -ne "600"" ];then
         echo "Warning: .token file has too open permissions"
 else
-        exit 1
+        echo "premission are ok"
 fi
