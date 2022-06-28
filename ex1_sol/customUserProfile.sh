@@ -3,7 +3,7 @@
 echo "****Hello $USER****"
 echo `/usr/lib/update-notifier/apt-check --human-readable`
 FILE=$HOME/.token
-PER="stat -c "%a"
+PER='"stat -c "%a"'
 if [ -f $FILE ]; then
   echo "**File Exist**"
 else
