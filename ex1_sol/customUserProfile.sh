@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prints current user's name
-echo "Hello" $USERNAME
+echo "Hello" $USER
 
 # Extra space
 echo
@@ -17,9 +17,9 @@ echo
 # Creates a variable called FILE with .token and CORRECTPERM for read and write by the user only permission
 FILE=.token
 CORRECTPERM=600
-if test -f /home/$USERNAME/"$FILE"
+if test -f /home/$USER/"$FILE"
 then
- FILEPERM=$(stat -c "%a" /home/$USERNAME/"$FILE")
+ FILEPERM=$(stat -c "%a" /home/$USER/"$FILE")
  if [ $FILEPERM != $CORRECTPERM ]
  then
   echo "Warning: .token file has too open permissions"
