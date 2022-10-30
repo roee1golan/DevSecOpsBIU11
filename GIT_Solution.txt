@@ -1,0 +1,437 @@
+# Git Basics (commit, diff, branches)
+
+1. In branch main, create a file called abc.txt containing the text 1 in it (echo "1" >> abc.txt).
+
+echo "1" >> abc.txt
+
+2. What is the color of file abc.txt in Git status view?
+$ git status
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        abc.txt
+        main.py
+
+
+The color of the file abc.txt is RED as this file is not tracked
+
+3. What is the file's color if you open the repo as a Pycharm project?
+
+The color of the file abc.txt is still RED since it is not yet added to the index and the changes are not tracked
+
+4. Add the file to the index. What is the color now in git status's output? What is the color in Pycharm? commit the changes.
+
+Added the file abc.txt to the index by:
+git add abc.txt
+
+checking result via:
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   abc.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        main.py
+
+The file abc.txt is colored in GREEN both terminal and pycharm since the file is tracked
+
+5. Append the line 2 to the end of abc.txt to change the state of this file in the working tree.
+
+adding text via
+echo 2 >> abc.txt
+
+content of abc.txt
+$ cat abc.txt
+1
+2
+
+6. When executing git status, is the color of abc.txt different from the observed color in step 2? What are the differences between the two outputs of git status command?
+
+$ git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   abc.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   abc.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        main.py
+
+Since we made changes to the file abc.txt in previous question #5, the git status command shows abc.txt both in green and red since there are "Changes to be committed" and colored green,
+and "Changes not staged for commit:" that are colored in red.
+
+
+7. What is the command to show changes between the working tree to branch main?
+
+$ git diff main
+warning: LF will be replaced by CRLF in abc.txt.
+The file will have its original line endings in your working directory
+diff --git a/abc.txt b/abc.txt
+new file mode 100644
+index 0000000..1191247
+--- /dev/null
++++ b/abc.txt
+@@ -0,0 +1,2 @@
++1
++2
+
+
+8. Why does git diff --staged print nothing?
+
+git diff --staged is not print nothing, since we have differences
+
+$ git diff --staged
+diff --git a/abc.txt b/abc.txt
+new file mode 100644
+index 0000000..d00491f
+--- /dev/null
++++ b/abc.txt
+@@ -0,0 +1 @@
++1
+
+9. Why does git diff stage2 prints fatal error? What is the error?
+
+$ git diff stage2
+fatal: ambiguous argument 'stage2': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+
+ there is no stage2
+
+10. Add abc.txt to the index.
+
+$ git add abc.txt
+warning: LF will be replaced by CRLF in abc.txt.
+The file will have its original line endings in your working directory
+
+
+11. What does git diff print? why?
+
+$ git diff
+
+git diff --staged print nothing, since we don't have differences / changes since we added the file abc.txt on previous question #10
+
+12. What is the command to show changes between the index and branch main?
+
+git diff --staged will show the difference between the index (stage) and Main branch
+
+
+13. Append the line 3 to the end of abc.txt to change the state of this file in the working tree.
+
+echo 3 >> abc.txt
+
+$ cat abc.txt
+1
+2
+3
+
+14. Would git diff --staged and git diff main commands print the same output? why?
+
+it will not print the same output because we made changes in the working tree. the git diff --staged will show differnce between main and stage while git diff main will show difference between working tree and stage
+
+$ git diff --staged
+diff --git a/abc.txt b/abc.txt
+new file mode 100644
+index 0000000..1191247
+--- /dev/null
++++ b/abc.txt
+@@ -0,0 +1,2 @@
++1
++2
+
+
+$ git diff main
+warning: LF will be replaced by CRLF in abc.txt.
+The file will have its original line endings in your working directory
+diff --git a/abc.txt b/abc.txt
+new file mode 100644
+index 0000000..01e79c3
+--- /dev/null
++++ b/abc.txt
+@@ -0,0 +1,3 @@
++1
++2
++3
+
+
+15. Why does abc.txt appear twice in the output of git status?
+
+Since we made changes to the file abc.txt in previous question #13, the git status command shows abc.txt both in green and red since there are "Changes to be committed" and colored green,
+and "Changes not staged for commit:" that are colored in red.
+
+The same as question #6
+
+16. Unstage the changes in your index and working tree (don't commit the changes)
+
+git restore --staged abc.txt
+
+$ git status
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        abc.txt
+        main.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+
+# Resolve conflicts
+Your manager decided that you'll lead the development of a feature called "Lambda migration" . You are told that John Doe and Narayan Nadella, your team colleagues, have already been worked on that area of the project in the past. You decide to create a new branch called feature/lambda_migration and merge the previous work of John and Narayan to your branch.
+
+1. List all existed branches of this repo (print them).
+ git branch
+
+  bugfix/fix_readme_typo
+  bugfix/open_kibana_port
+  dev
+  feature/data_retention_policy
+  feature/elasticsearch_helm_chart
+  feature/upgrade_angular_version
+  feature/version1
+  feature/version2
+* main
+
+2. Create a new branch called feature/lambda_migration and switch (checkout) to this branch.
+
+git branch feature/lambda_migration
+
+git checkout feature/lambda_migration
+or via the gui branches (currently showing "main") -> select feature/lambda_migration -> click on checkout
+
+3. Merge branch feature/version1 into feature/lambda_migration, observe the merged changes.
+
+branches (currently showing "feature/lambda_migration") -> select branch feature/version1 -> click on merge 'feature/version1' into 'feature/lambda_migration'
+
+branches (currently showing "feature/lambda_migration") -> select branch 'feature/lambda_migration' -> click on "show diff with working tree"
+
+4. Using PyCharm UI - merge branch feature/version2 into feature/lambda_migration.
+
+branches (currently showing "feature/lambda_migration") -> select branch feature/version2 -> click on merge 'feature/version2' into 'feature/lambda_migration'
+
+
+5. Resolve the conflict as following:
+
+   1. On the opened conflict tool, choose the conflicted file and click Merge.
+   2. First click All to merge all changes for which there is no conflicts.
+   3. Right click on right and left pages and choose Annotate with Git Blame
+   4. Accept John Doe's port number (8081), deny Narayan's port (8082).
+   5. Accept the function name of Narayan Nadella (get_profile_picture), Block John's name.
+6. After all merges were completed, are there any added commits for feature/lambda_migration? what are those commits?
+
+ git show -a
+commit 61e1c5eb485bfd68e0712cafb1e220ea6b4a49f6 (HEAD -> feature/lambda_migration)
+Merge: 64eb098 15f1acc
+Author: Michael Benis <michael@benis.co.il>
+Date:   Fri Oct 28 16:23:48 2022 +0300
+
+    Merge branch 'feature/version2' into feature/lambda_migration
+
+    # Conflicts:
+    #       app.py
+
+
+or
+
+git log
+commit 61e1c5eb485bfd68e0712cafb1e220ea6b4a49f6 (HEAD -> feature/lambda_migration)
+Merge: 64eb098 15f1acc
+Author: Michael Benis <michael@benis.co.il>
+Date:   Fri Oct 28 16:23:48 2022 +0300
+
+    Merge branch 'feature/version2' into feature/lambda_migration
+
+    # Conflicts:
+    #       app.py
+
+
+In Pycharm Git tab (bottom left), navigate to tab Log
+
+the commit is for the merging of the branches
+
+
+# Cherry picking
+git cherry-pick is a powerful command that enables arbitrary Git commits to be picked by reference and appended to the current working HEAD. Continuing our story from above, let's say you've messed up your branch feature/lambda_migration, and you want to start over again, but picking only some valuable commits from your previous branch.
+
+1. Create a clean fresh branch feature/lambda_migration2, versioned from main.
+
+branchs -> "main" -> select "new brach from main" , name the new brach "feature/lambda_migration2"
+
+
+2. In Pycharm Git tab (bottom left), navigate to tab Log, filter Branch so only commit of feature/lambda_migration would be shown.
+
+3. In PyCharm UI, use the cherry-pick icon to pick those commits in the following order
+    1. "use correct lock type in reconnect()"
+    2. "Restrict the extensions that can be disabled"
+4. Which files have been added to your branch as a result of the commits cherry-picking?
+
+files: .env and config.json
+
+
+5. Should you care about the order in which commits are picked? why?
+Yes, we should definitely cherry-pick commits in order. If we don't, they may not apply.
+and because each change is dependent on the previous change.
+
+
+# Changes in working tree and switch branches
+A very common issue for Git beginners is switching branches while there are uncommitted changes in the working tree. We will now simulate this scenario and discuss common practices.
+
+1. Make sure you are in branch different from dev (you should be in feature/lambda_migration2 if you follow the exercise in the order it's written).
+
+git branch --show-current
+feature/lambda_migration2
+
+2. Create a new file called take.txt, write some lines in it and add it to the index (don't commit, only add). Now you have uncommitted changes in the working tree.
+
+echo line1\n line2\n line3\n > take.txt
+
+cat take.txt
+line1\n
+line2\n
+line3\n
+
+git add take.txt
+
+
+3. Checkout to dev, which error do you get? What are the two approaches suggested by git? Read about git stash command from the Official Git Docs.
+
+git checkout dev
+error: Your local changes to the following files would be overwritten by checkout:
+        take.txt
+Please commit your changes or stash them before you switch branches.
+Aborting
+
+
+4. Using PyCharm UI, try to checkout dev again. On the prompted dialog click Force Checkout.
+
+git branch --show-current
+dev
+
+5. Does take.txt contain your changes when you're now in dev?
+
+No, take.txt is not containing my changes
+
+cat take.txt
+a
+b
+c
+
+
+6. Checkout back to the branch you've come from, do you have your take.txt there? So what does Force Checkout do?
+
+git checkout feature/lambda_migration2
+Switched to branch 'feature/lambda_migration2'
+
+cat take.txt
+cat : Cannot find path 'C:\Users\micha\PycharmProjects\DevSecOpsBIU11\newlocalgitrepository\take.txt' because it does not exist.
+At line:1 char:1
++ cat take.txt
++ ~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\micha\...sitory\take.txt:String) [Get-Content], ItemNotFoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+take.txt is non existing. Force checkout accepts the destination force checkout version and delete the version from
+which we did the checkout.
+
+# Reset
+
+1. Checkout reset_question branch.
+
+git checkout reset_question
+Switched to branch 'reset_question'
+
+
+2. Run the following commands line by line, after each command, observe what happened to your working tree and explain why.
+
+   1. git reset --soft HEAD~1
+
+git status
+On branch reset_question
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   10.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        abc.txt
+        main.py
+
+undo the staging commands
+
+   2. git reset --mixed HEAD~1
+
+ git status
+On branch reset_question
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        10.txt
+        9.txt
+        abc.txt
+        main.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+reverting back to the last working tree
+
+   3. git reset --hard HEAD~1
+
+git reset --hard HEAD~1
+HEAD is now at ab52389 7
+
+git status
+On branch reset_question
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        10.txt
+        9.txt
+        abc.txt
+        main.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Reseting all the commits and delete them.
+
+
+
+   4. git revert HEAD~1
+
+Revert "6"
+
+This reverts commit ab52389cf3e63dfbe246de6c6c4836bc4a3b8381.
+
+
+
+3. Explain the notation HEAD~1 in git reset command.
+
+git-reset - Reset current HEAD to the specified state
+
+https://git-scm.com/docs/git-reset
+
+for example:
+When using git reset --soft HEAD~1 you will remove the last commit from the current branch, but the file changes will stay in your working tree. Also, the changes will stay on your index, so following with a git commit will create a commit with the exact same changes as the commit you "removed" before.
+
+
+# Working with GitHub
+
+1. In your GitHub account, create a new repository.
+2. Add this repo as a remote (origin) to the local repo you've worked on along this exercise.
+
+git remote add origin https://github.com/michaelbenis/DevSecOpsBIU11GitExercise.git
+
+3. Push branches main and dev.
+
+git checkout main
+Switched to branch 'main'
+
+git checkout dev
+Switched to branch 'dev'
+
+
+4. Copy and paste the link to your GitHub repo in the README answers file.
+
